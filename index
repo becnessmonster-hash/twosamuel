@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Countdown</title>
+<style>
+html,body{margin:0;height:100%;background:#000;color:#fff}
+body{display:flex;align-items:center;justify-content:center;font-family:ui-monospace,Menlo,Consolas,monospace}
+#w{display:flex;flex-direction:column;gap:12px}
+form{display:flex;gap:8px;align-items:center}
+input,button{font:inherit;font-size:16px;background:#000;color:#fff;border:1px solid #444;padding:10px 14px;outline:none;border-radius:0}
+input:focus{border-color:#fff}
+button{cursor:pointer}button:hover{border-color:#fff}
+.bad input{border-color:#600}
+.tick{width:28px;color:#2ecc40;font-size:24px;visibility:hidden}
+.ok .tick{visibility:visible}
+.ok input{border-color:#2ecc40}
+#emblem{display:block;margin:0 auto 8px;max-width:160px;max-height:160px;opacity:0;transform:scale(.8);transition:opacity .6s,transform .6s;visibility:hidden}
+#emblem.show{opacity:1;transform:scale(1);visibility:visible}
+</style></head><body>
+<div id="w">
+<!-- IMAGE PLACEHOLDER: put your own image file next to this page and name it emblem.png
+     (or change src below to your file's name). It appears when the first password is correct. -->
+<img id="emblem" src="emblem.png" alt="" onerror="this.remove()">
+<form id="f1" autocomplete="off"><input id="p1" type="password" aria-label="First password" autofocus><button type="submit">Submit</button><span class="tick" aria-hidden="true">&#10004;</span></form>
+<form id="f2" autocomplete="off"><input id="p2" type="password" aria-label="Second password"><button type="submit">Submit</button><span class="tick"></span></form>
+</div>
+<script>
+var A=["CCJ16AeJFSspk/QsiuRbhQ==","wnGRskhVvSyVyhNp","MFs//2gotpqkALCcxm0WwmIh"],B=["c3aWnau4Bdzwb/j7IQBbWQ==","9k2A8U8drtZ/U/XT","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"],good1=null;
+function u(s){return Uint8Array.from(atob(s),function(ch){return ch.charCodeAt(0)})}
+async function open(pass,X){
+ var base=await crypto.subtle.importKey('raw',new TextEncoder().encode(pass),'PBKDF2',false,['deriveKey']);
+ var key=await crypto.subtle.deriveKey({name:'PBKDF2',salt:u(X[0]),iterations:250000,hash:'SHA-256'},base,{name:'AES-GCM',length:256},false,['decrypt']);
+ return new TextDecoder().decode(await crypto.subtle.decrypt({name:'AES-GCM',iv:u(X[1])},key,u(X[2])));
+}
+function fail(f,i){f.classList.add('bad');i.value='';setTimeout(function(){f.classList.remove('bad')},800)}
+var f1=document.getElementById('f1'),p1=document.getElementById('p1'),f2=document.getElementById('f2'),p2=document.getElementById('p2');
+f1.addEventListener('submit',async function(e){
+ e.preventDefault();
+ try{await open(p1.value,A);good1=p1.value;f1.classList.add('ok');var em=document.getElementById('emblem');if(em)em.classList.add('show');p1.disabled=true;f1.querySelector('button').disabled=true;p2.focus()}
+ catch(err){fail(f1,p1)}
+});
+f2.addEventListener('submit',async function(e){
+ e.preventDefault();
+ if(good1===null){fail(f2,p2);return}
+ try{
+  var out=await open(good1+'\u0000'+p2.value,B);
+  var m=out.split('<script>'),h=m[0],js=m[1].split('<\/script>')[0];
+  document.body.innerHTML=h;new Function(js)();
+ }catch(err){fail(f2,p2)}
+});
+</script></body></html>
